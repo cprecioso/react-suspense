@@ -1,0 +1,39 @@
+on:
+  workflow_dispatch:
+  workflow_call:
+
+name: Publish
+
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - uses: cprecioso/action-prepare-node@v1
+      - run: yarn pack -o package.tgz
+      - uses: actions/upload-artifact@v3
+        with:
+          name: package.tgz
+          path: package.tgz
+          if-no-files-found: error
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org/
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: package.tgz
+
+      - run: npm publish package.tgz
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
