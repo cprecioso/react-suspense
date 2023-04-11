@@ -1,14 +1,14 @@
 {
-  "name": "@cprecioso/pkg-name",
+  "name": "@cprecioso/react-suspense",
   "version": "0.1.0",
-  "description": "@cprecioso/pkg-name description",
+  "description": "@cprecioso/react-suspense description",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cprecioso/pkg-name.git"
+    "url": "git+https://github.com/cprecioso/react-suspense.git"
   },
-  "homepage": "https://github.com/cprecioso/pkg-name#readme",
+  "homepage": "https://github.com/cprecioso/react-suspense#readme",
   "bugs": {
-    "url": "https://github.com/cprecioso/pkg-name/issues"
+    "url": "https://github.com/cprecioso/react-suspense/issues"
   },
   "author": "Carlos Precioso",
   "license": "MIT",
@@ -22,13 +22,18 @@
     "build": "tsup",
     "prepack": "$npm_execpath run build"
   },
+  "peerDependencies": {
+    "react": "^18"
+  },
   "devDependencies": {
     "@cprecioso/tsconfig": "^2.0.0",
+    "@types/react": "^18.0.34",
     "prettier": "^2.8.7",
     "prettier-plugin-organize-imports": "^3.2.2",
     "prettier-plugin-pkg": "^0.17.1",
     "prettier-plugin-sh": "^0.12.8",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4"
-  }
+  },
+  "sideEffects": false
 }
