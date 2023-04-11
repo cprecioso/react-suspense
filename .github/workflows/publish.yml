@@ -34,6 +34,6 @@ jobs:
         with:
           name: package.tgz
 
-      - run: npm publish package.tgz
+      - run: npm publish --access public package.tgz
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
