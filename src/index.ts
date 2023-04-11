@@ -1,1 +1,1 @@
-export {};
+export { createSingleValueSuspense } from "./single-value";
