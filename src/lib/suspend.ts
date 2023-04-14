@@ -1,12 +1,16 @@
 import { CacheValue } from "./cache-ref";
 
+// We wrap the `fn` in an async function to avoid
+// throwing sync errors.
+const callPromiseFn = async <T>(fn: () => Promise<T>) => await fn();
+
 export const suspendOnPromise = <T>(
   fn: () => Promise<T>,
-  cachedValue: CacheValue<T> | null,
+  cachedValue: CacheValue<T> | undefined | null,
   storeInCache: (value: CacheValue<T>) => void
 ) => {
   if (!cachedValue) {
-    const promise = fn().then(
+    const promise = callPromiseFn(fn).then(
       (value) => storeInCache({ status: "fulfilled", value }),
       (error) => storeInCache({ status: "rejected", error })
     );
