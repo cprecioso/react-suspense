@@ -5,66 +5,75 @@ $ npm i -D @cprecioso/react-suspense       # if you use npm
 $ yarn add --dev @cprecioso/react-suspense # if you use yarn
 ```
 
-## `createSingleValueSuspense`
+## `use` functions
 
-```ts
-const createSingleValueSuspense: <T>(
-  getClientValue: () => Promise<T>,
-  getServerValue?: () => Promise<T>
-) => () => T;
-```
+This library returns some functions named `use`. This is to keep consistency
+with
+[the proposed `use` function from React](https://github.com/reactjs/rfcs/pull/229).
+Same as that proposal, `use` can be called from inside a component or a hook,
+and inside conditionals or loops, but not from other kinds of functions such as
+`useEffect` or code outside of a React tree.
 
-Creates a hook to get a single value, suspending the tree. It only works on the
-client unless manually specified.
+## Suspenses
 
-> The `getServerValue` argument has the same restrictions as the second argument
-> for
-> [the `useSyncExternalStore` hook](https://react.dev/reference/react/useSyncExternalStore#adding-support-for-server-rendering),
-> especially the requirement of it returning the same value on client and
-> server.
+### `createSingleValueSuspense`
 
-### Example
-
-#### Only client-side
-
-```tsx
+```jsx
 import { createSingleValueSuspense } from "@cprecioso/react-suspense";
 
-const useAppConfig = createSingleValueSuspense(
-  // A `Promise`-returning function with the value you want to pass to your application
-  async () => (await fetch("/api/config")).json()
+const { use: useAppConfig } = createSingleValueSuspense(async () =>
+  (await fetch("/api/config")).json()
 );
 
-export const MyComponent = () => {
+export const Greeting = () => {
   const { accentColor } = useAppConfig();
-
-  return (
-    <div style={{ backgroundColor: accentColor }}>
-      <h1>Hello world!</h1>
-    </div>
-  );
+  return <h1 style={{ color: accentColor }}>Hello world</h1>;
 };
 ```
 
-#### Client- and server-side
+Pass it an async function, returns an object with:
 
-```tsx
-import { createSingleValueSuspense } from "@cprecioso/react-suspense";
+- `use()`: call it to suspend your tree while the async function resolves.
 
-const useAppConfig = createSingleValueSuspense(
-  async () => (await fetch("/api/config")).json(),
-  // For example, here we use a dummy value for the inital server-side rendering,
-  // but we could do anything, like calling another API.
-  async () => ({ accentColor: "black" })
+- `cache`: an object that provides a `get`/`set` function to manually manipulate
+  the cache. Useful to call `cache.set(null)` and force re-fetching.
+
+### `createKeyedSuspense`
+
+```jsx
+import { createKeyedSuspense } from "@cprecioso/react-suspense";
+
+const { use: useUserInfo } = createKeyedSuspense(async (userId) =>
+  (await fetch(`/api/user/${userId}`)).json()
 );
 
-export const MyComponent = () => {
-  const { accentColor } = useAppConfig();
-
-  return (
-    <div style={{ backgroundColor: accentColor }}>
-      <h1>Hello world!</h1>
-    </div>
-  );
+export const UserInfo = ({ userId }) => {
+  const { name } = useUserInfo(userId);
+  return <p>Name: {name}</p>;
 };
 ```
+
+Pass it an async function, returns an object with:
+
+- `use(key)`: call it to suspend your tree while the async function resolves.
+
+- `cache`: an object that provides a `get`/`set` function to manually manipulate
+  the cache. Useful to call `cache.set(key, null)` and force re-fetching.
+
+## Caches
+
+### `createSingleValueCache`
+
+### `createKeyedCache`
+
+Same as their `createXSuspense` counterparts, but the async function is not
+passed when creating the cache, but when calling `use`: `use(fn)` /
+`use(key, fn)`.
+
+### `createSingleValueCacheWithStorage`
+
+### `createKeyedCacheWithStorage`
+
+Same as their `createXCache` counterparts, but you must provide an storage
+object for the promise cache to be stored in. It's just an object with `get` and
+`set` methods.
