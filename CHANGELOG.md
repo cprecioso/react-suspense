@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/cprecioso/react-suspense/compare/v1.0.0...v1.0.1) (2023-04-26)
+
+
+### Bug Fixes
+
+* add provenance ([a3389bb](https://github.com/cprecioso/react-suspense/commit/a3389bbe6392f1727ea0bbbbfc9eeaa0e1525e54))
+
 ## 1.0.0 (2023-04-14)
 
 
