@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/cprecioso/react-suspense/compare/v1.0.1...v2.0.0) (2023-09-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* update types and names
+
+### Features
+
+* update types and names ([f585a52](https://github.com/cprecioso/react-suspense/commit/f585a5284e5b266899cfa8e379d9b035f7c16f8d))
+
 ## [1.0.1](https://github.com/cprecioso/react-suspense/compare/v1.0.0...v1.0.1) (2023-04-26)
 
 
