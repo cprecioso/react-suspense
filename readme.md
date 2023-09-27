@@ -98,9 +98,9 @@ Pass it an async function, returns an object with:
 - `cache`: an object that provides a `get`/`set` function to manually manipulate
   the cache. Useful to call `cache.set(key, null)` and force re-fetching.
 
-### `createSingleValueCache`
+### `createSuspense`
 
-### `createKeyedCache`
+### `createKeyedSuspense`
 
 Same as their `bind` counterparts. However, the async function is not passed
 when creating the cache, but when calling `suspend`: `suspend(fn)` /
