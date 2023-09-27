@@ -1,6 +1,6 @@
 import { KeyedCacheStorage, createKeyedSuspense } from "../suspense/keyed";
 
-export const bindKeyedSuspense = <K extends string, T>(
+export const bindKeyedSuspense = <K, T>(
   fn: (key: K) => Promise<T>,
   { storage }: { storage?: KeyedCacheStorage<K, T> } = {}
 ) => {
