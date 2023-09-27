@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/cprecioso/react-suspense/compare/v2.0.0...v2.0.1) (2023-09-27)
+
+
+### Bug Fixes
+
+* remove restrictive typings ([2f43c4e](https://github.com/cprecioso/react-suspense/commit/2f43c4ef611ff49f74f1c0d7fdc08bc4337bf423))
+
 ## [2.0.0](https://github.com/cprecioso/react-suspense/compare/v1.0.1...v2.0.0) (2023-09-27)
 
 
