@@ -5,75 +5,117 @@ $ npm i -D @cprecioso/react-suspense       # if you use npm
 $ yarn add --dev @cprecioso/react-suspense # if you use yarn
 ```
 
-## `use` functions
+## Quick-start
 
-This library returns some functions named `use`. This is to keep consistency
-with
-[the proposed `use` function from React](https://github.com/reactjs/rfcs/pull/229).
-Same as that proposal, `use` can be called from inside a component or a hook,
-and inside conditionals or loops, but not from other kinds of functions such as
-`useEffect` or code outside of a React tree.
+A simple way to do a `fetch` while suspending the tree
 
-## Suspenses
+```tsx
+import { bindKeyedSuspense } from "@cprecioso/react-suspense";
 
-### `createSingleValueSuspense`
+const { suspend: fetchPokemon } = bindKeyedSuspense((name: string) =>
+  fetch(`https://pokeapi.co/api/v2/pokemon/${name}`).then((res) => res.json())
+);
+
+const Pokemon = ({ name }: { name: string }) => {
+  const data = fetchPokemon(name);
+  return (
+    <li>
+      {data.name} is {data.height * 10}cm tall
+    </li>
+  );
+};
+
+const App = () => {
+  const names = ["pichu", "pikachu", "raichu"];
+
+  return (
+    <ul>
+      {names.map((name) => (
+        <Pokemon key={name} name={name} />
+      ))}
+    </ul>
+  );
+};
+
+export default App;
+```
+
+You can wrap these components in `Suspense`s, handle data fetching errors in
+your regular error boundaries, and use `useDeferredValue` and `startTransition`
+to defer the loading to the background.
+
+## Guide
+
+This library returns some functions named `suspend`. `suspend()` can be called
+from inside a component or a hook, and inside conditionals or loops, but not
+from other kinds of functions such as `useEffect` or code outside of a React
+tree.
+
+The following functions are ordered from simple to more advanced:
+
+### `bindSuspense`
 
 ```jsx
-import { createSingleValueSuspense } from "@cprecioso/react-suspense";
+import { bindSuspense } from "@cprecioso/react-suspense";
 
-const { use: useAppConfig } = createSingleValueSuspense(async () =>
-  (await fetch("/api/config")).json()
+const appConfig = bindSuspense(() =>
+  fetch("/api/config").then((res) => res.json())
 );
 
 export const Greeting = () => {
-  const { accentColor } = useAppConfig();
+  const { accentColor } = appConfig.suspend();
   return <h1 style={{ color: accentColor }}>Hello world</h1>;
 };
 ```
 
 Pass it an async function, returns an object with:
 
-- `use()`: call it to suspend your tree while the async function resolves.
+- `suspend()`: call it to suspend your tree while the async function resolves.
 
 - `cache`: an object that provides a `get`/`set` function to manually manipulate
   the cache. Useful to call `cache.set(null)` and force re-fetching.
 
-### `createKeyedSuspense`
+### `bindKeyedSuspense`
 
 ```jsx
-import { createKeyedSuspense } from "@cprecioso/react-suspense";
+import { bindKeyedSuspense } from "@cprecioso/react-suspense";
 
-const { use: useUserInfo } = createKeyedSuspense(async (userId) =>
+const userInfo = bindKeyedSuspense(async (userId) =>
   (await fetch(`/api/user/${userId}`)).json()
 );
 
 export const UserInfo = ({ userId }) => {
-  const { name } = useUserInfo(userId);
+  const { name } = userInfo.suspend(userId);
   return <p>Name: {name}</p>;
 };
 ```
 
 Pass it an async function, returns an object with:
 
-- `use(key)`: call it to suspend your tree while the async function resolves.
+- `suspend(key)`: call it to suspend your tree while the async function
+  resolves.
 
 - `cache`: an object that provides a `get`/`set` function to manually manipulate
   the cache. Useful to call `cache.set(key, null)` and force re-fetching.
-
-## Caches
 
 ### `createSingleValueCache`
 
 ### `createKeyedCache`
 
-Same as their `createXSuspense` counterparts, but the async function is not
-passed when creating the cache, but when calling `use`: `use(fn)` /
-`use(key, fn)`.
+Same as their `bind` counterparts. However, the async function is not passed
+when creating the cache, but when calling `suspend`: `suspend(fn)` /
+`suspend(key, fn)`.
 
-### `createSingleValueCacheWithStorage`
-
-### `createKeyedCacheWithStorage`
+### Custom Storage
 
 Same as their `createXCache` counterparts, but you must provide an storage
 object for the promise cache to be stored in. It's just an object with `get` and
 `set` methods.
+
+All functions also accept an object as their last parameter, with the option
+`storage`. You can provide a backend for the cache, useful for using an LRU
+cache ([`quick-lru`](https://github.com/sindresorhus/quick-lru)), avoiding
+holding references to the obejcts (`WeakMap`), or accepting multiple objects as
+the key ([`many-keys-map`](https://github.com/fregante/many-keys-map)).
+
+The object must implement `get` and `set` methods like those of `Map`.
