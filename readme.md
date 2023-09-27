@@ -108,10 +108,6 @@ when creating the cache, but when calling `suspend`: `suspend(fn)` /
 
 ### Custom Storage
 
-Same as their `createXCache` counterparts, but you must provide an storage
-object for the promise cache to be stored in. It's just an object with `get` and
-`set` methods.
-
 All functions also accept an object as their last parameter, with the option
 `storage`. You can provide a backend for the cache, useful for using an LRU
 cache ([`quick-lru`](https://github.com/sindresorhus/quick-lru)), avoiding
