@@ -20,6 +20,7 @@
   ],
   "scripts": {
     "build": "tsup",
+    "build-docs": "typedoc",
     "prepack": "$npm_execpath run build"
   },
   "peerDependencies": {
@@ -33,6 +34,7 @@
     "prettier-plugin-pkg": "^0.17.1",
     "prettier-plugin-sh": "^0.12.8",
     "tsup": "^6.7.0",
+    "typedoc": "^0.25.1",
     "typescript": "^5.0.4"
   },
   "sideEffects": false
