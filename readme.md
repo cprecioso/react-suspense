@@ -44,6 +44,10 @@ You can wrap these components in `Suspense`s, handle data fetching errors in
 your regular error boundaries, and use `useDeferredValue` and `startTransition`
 to defer the loading to the background.
 
+## API
+
+_See the [docs](https://cprecioso.github.io/react-suspense/)_
+
 ## Guide
 
 This library returns some functions named `suspend`. `suspend()` can be called
@@ -80,8 +84,8 @@ Pass it an async function, returns an object with:
 ```jsx
 import { bindKeyedSuspense } from "@cprecioso/react-suspense";
 
-const userInfo = bindKeyedSuspense(async (userId) =>
-  (await fetch(`/api/user/${userId}`)).json()
+const userInfo = bindKeyedSuspense((userId) =>
+  fetch(`/api/user/${userId}`).then((res) => res.json())
 );
 
 export const UserInfo = ({ userId }) => {
