@@ -5,7 +5,7 @@ export default defineConfig({
   outDir: "dist",
 
   format: ["esm"],
-  target: "es2020",
+  target: "es2022",
   platform: "neutral",
 
   dts: true,
