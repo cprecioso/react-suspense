@@ -12,7 +12,7 @@
   },
   "author": "Carlos Precioso",
   "license": "MIT",
-  "packageManager": "yarn@3.5.0",
+  "packageManager": "yarn@3.6.3",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
