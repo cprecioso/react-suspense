@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/cprecioso/react-suspense/compare/v2.0.1...v2.1.0) (2023-09-28)
+
+
+### Features
+
+* update compilation target from es2020 to es2022 ([a67df25](https://github.com/cprecioso/react-suspense/commit/a67df25babb4d34e0f392f9d62c111ac84d92b2e))
+
+
+### Performance Improvements
+
+* simpler default single value storage ([bc911b6](https://github.com/cprecioso/react-suspense/commit/bc911b644a24cbb485bbcdda96db200a0fe2d245))
+
 ## [2.0.1](https://github.com/cprecioso/react-suspense/compare/v2.0.0...v2.0.1) (2023-09-27)
 
 
