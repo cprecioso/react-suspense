@@ -1,5 +1,24 @@
 # Changelog
 
+## [3.0.0](https://github.com/cprecioso/react-suspense/compare/v2.1.1...v3.0.0) (2023-12-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* improve typings for cache storages
+* use private fields for better minification
+
+### Features
+
+* add `suspend` function ([28b4c32](https://github.com/cprecioso/react-suspense/commit/28b4c32eca6631fd1cf392a1d21547e1d95b3836))
+* improve typings for cache storages ([0946f66](https://github.com/cprecioso/react-suspense/commit/0946f66b5f76cd35b4145a97244bf7dee5716b4e))
+* use private fields for better minification ([bb53869](https://github.com/cprecioso/react-suspense/commit/bb53869946938b7a717aa7a8f1591a7b420bd83e))
+
+
+### Bug Fixes
+
+* bind storage when passing set function around ([80144b2](https://github.com/cprecioso/react-suspense/commit/80144b26f47f19cd93d92fda77e9419bb3f0e087))
+
 ## [2.1.1](https://github.com/cprecioso/react-suspense/compare/v2.1.0...v2.1.1) (2023-09-28)
 
 
