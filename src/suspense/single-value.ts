@@ -10,14 +10,14 @@ export interface SingleValueCacheStorage<Value> {
 class DefaultSingleValueStorage<Value>
   implements SingleValueCacheStorage<Value>
 {
-  private storage?: CacheValue<Value> | null;
+  #storage?: CacheValue<Value> | null;
 
   get() {
-    return this.storage;
+    return this.#storage;
   }
 
   set(value: CacheValue<Value> | null) {
-    this.storage = value;
+    this.#storage = value;
   }
 }
 
