@@ -54,5 +54,6 @@ export const createSuspense = <Value>({
   suspend: (fn: () => Promise<Value>) => Value;
 } => ({
   cache: storage,
-  suspend: (fn) => suspendOnPromise(fn, storage.get(), storage.set),
+  suspend: (fn) =>
+    suspendOnPromise(fn, storage.get(), storage.set.bind(storage)),
 });

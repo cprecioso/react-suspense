@@ -42,5 +42,5 @@ export const createKeyedSuspense = <Key, Value>({
 } => ({
   cache: storage,
   suspend: (key, fn) =>
-    suspendOnPromise(fn, storage.get(key), (value) => storage.set(key, value)),
+    suspendOnPromise(fn, storage.get(key), storage.set.bind(storage, key)),
 });
