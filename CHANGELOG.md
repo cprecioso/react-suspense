@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/cprecioso/react-suspense/compare/v3.0.0...v3.1.0) (2023-12-09)
+
+
+### Features
+
+* remove experimental suspend ([54756b4](https://github.com/cprecioso/react-suspense/commit/54756b4fa7d5b19dd3568ca86c3b9d2008e33044))
+
 ## [3.0.0](https://github.com/cprecioso/react-suspense/compare/v2.1.1...v3.0.0) (2023-12-09)
 
 
