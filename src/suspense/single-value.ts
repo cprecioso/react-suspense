@@ -1,22 +1,22 @@
-import { CacheValue } from "../lib/cache-ref";
+import { StoredCacheValue } from "../lib/cache-ref";
 import { suspendOnPromise } from "../lib/suspend";
 
 /** A backing cache for a single-value suspense. Provide `get` and `set` functions. */
 export interface SingleValueCacheStorage<Value> {
-  get(): CacheValue<Value> | undefined | null;
-  set(value: CacheValue<Value> | null): void;
+  get(): Value | undefined;
+  set(value: Value): void;
 }
 
 class DefaultSingleValueStorage<Value>
   implements SingleValueCacheStorage<Value>
 {
-  #storage?: CacheValue<Value> | null;
+  #storage?: Value;
 
   get() {
     return this.#storage;
   }
 
-  set(value: CacheValue<Value> | null) {
+  set(value: Value) {
     this.#storage = value;
   }
 }
@@ -26,8 +26,13 @@ class DefaultSingleValueStorage<Value>
  *
  * @param options
  */
-export const createSuspense = <Value>({
-  storage = /*#__PURE__*/ new DefaultSingleValueStorage(),
+export const createSuspense = <
+  Value,
+  Storage extends SingleValueCacheStorage<
+    StoredCacheValue<Value>
+  > = SingleValueCacheStorage<StoredCacheValue<Value>>,
+>({
+  storage = new DefaultSingleValueStorage() as any,
 }: {
   /**
    * **(Advanced)** You can provide the backing cache object
@@ -35,7 +40,7 @@ export const createSuspense = <Value>({
    * By default it uses an internal implementation based on
    * an internal variable, but you can provide your own implementation
    */
-  storage?: SingleValueCacheStorage<Value>;
+  storage?: Storage;
 } = {}): {
   /**
    * Access to the backing cache.
@@ -43,7 +48,7 @@ export const createSuspense = <Value>({
    * @remark
    * Useful for doing `cache.set(null)`, and force a re-fetch.
    */
-  cache: SingleValueCacheStorage<Value>;
+  cache: Storage;
   /**
    * Suspend your tree while the async function resolves, and return its promise's value
    *

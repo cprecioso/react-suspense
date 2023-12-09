@@ -1,4 +1,4 @@
-import { CacheValue } from "../lib/cache-ref";
+import { StoredCacheValue } from "../lib/cache-ref";
 import { suspendOnPromise } from "../lib/suspend";
 
 /**
@@ -9,8 +9,8 @@ import { suspendOnPromise } from "../lib/suspend";
  * and [`quick-lru`](https://github.com/sindresorhus/quick-lru).
  */
 export interface KeyedCacheStorage<Key, Value> {
-  get(key: Key): CacheValue<Value> | undefined | null;
-  set(key: Key, value: CacheValue<Value> | null): void;
+  get(key: Key): Value | undefined;
+  set(key: Key, value: Value): void;
 }
 
 /**
@@ -18,11 +18,18 @@ export interface KeyedCacheStorage<Key, Value> {
  *
  * @param options
  */
-export const createKeyedSuspense = <Key, Value>({
-  storage = new Map<Key, CacheValue<Value>>(),
+export const createKeyedSuspense = <
+  Key,
+  Value,
+  Storage extends KeyedCacheStorage<
+    Key,
+    StoredCacheValue<Value>
+  > = KeyedCacheStorage<Key, StoredCacheValue<Value>>,
+>({
+  storage = new Map() as any,
 }: {
   /** **(Advanced)** You can provide the backing cache object */
-  storage?: KeyedCacheStorage<Key, Value>;
+  storage?: Storage;
 } = {}): {
   /**
    * Access to the backing cache.
@@ -30,7 +37,7 @@ export const createKeyedSuspense = <Key, Value>({
    * @remark
    * Useful for doing `cache.set(key, null)`, and force a re-fetch.
    */
-  cache: KeyedCacheStorage<Key, Value>;
+  cache: Storage;
   /**
    * Suspend your tree while the async function resolves, it takes a `key`, and return its promise's value.
    *

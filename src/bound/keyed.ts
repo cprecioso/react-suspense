@@ -1,3 +1,4 @@
+import { StoredCacheValue } from "../lib/cache-ref";
 import { KeyedCacheStorage, createKeyedSuspense } from "../suspense/keyed";
 
 /**
@@ -49,7 +50,14 @@ import { KeyedCacheStorage, createKeyedSuspense } from "../suspense/keyed";
  *   );
  * };
  */
-export const bindKeyedSuspense = <Key, Value>(
+export const bindKeyedSuspense = <
+  Key,
+  Value,
+  Storage extends KeyedCacheStorage<
+    Key,
+    StoredCacheValue<Value>
+  > = KeyedCacheStorage<Key, StoredCacheValue<Value>>,
+>(
   /**
    * The async function that will be called when suspending. It will accept the `key` parameter.
    *
@@ -63,7 +71,7 @@ export const bindKeyedSuspense = <Key, Value>(
     storage,
   }: {
     /** **(Advanced)** You can provide the backing cache object */
-    storage?: KeyedCacheStorage<Key, Value>;
+    storage?: Storage;
   } = {},
 ): {
   /** Suspend your tree while the async function resolves, it takes a `key`, and return its promise's value */
@@ -80,5 +88,5 @@ export const bindKeyedSuspense = <Key, Value>(
     storage,
   });
   const suspend = (key: Key) => cacheSuspend(key, () => fetcher(key));
-  return { suspend, cache };
+  return { suspend, cache: cache as any };
 };
