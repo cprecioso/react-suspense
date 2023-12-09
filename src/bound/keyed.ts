@@ -57,14 +57,14 @@ export const bindKeyedSuspense = <Key, Value>(
    */
   fetcher: (
     /** The cache key */
-    key: Key
+    key: Key,
   ) => Promise<Value>,
   {
     storage,
   }: {
     /** **(Advanced)** You can provide the backing cache object */
     storage?: KeyedCacheStorage<Key, Value>;
-  } = {}
+  } = {},
 ): {
   /** Suspend your tree while the async function resolves, it takes a `key`, and return its promise's value */
   suspend: (key: Key) => Value;

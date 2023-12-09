@@ -39,7 +39,7 @@ export const bindSuspense = <Value>(
      * a simple variable, but you can provide your own implementation
      */
     storage?: SingleValueCacheStorage<Value>;
-  } = {}
+  } = {},
 ): {
   /** Suspend your tree while the async function resolves, and return its promise's value */
   suspend: () => Value;

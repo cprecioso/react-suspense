@@ -7,12 +7,12 @@ const callPromiseFn = async <T>(fn: () => Promise<T>) => await fn();
 export const suspendOnPromise = <T>(
   fn: () => Promise<T>,
   cachedValue: CacheValue<T> | undefined | null,
-  storeInCache: (value: CacheValue<T>) => void
+  storeInCache: (value: CacheValue<T>) => void,
 ) => {
   if (!cachedValue) {
     const promise = callPromiseFn(fn).then(
       (value) => storeInCache({ status: "fulfilled", value }),
-      (error) => storeInCache({ status: "rejected", error })
+      (error) => storeInCache({ status: "rejected", error }),
     );
     storeInCache({ status: "waiting", promise });
     throw promise;

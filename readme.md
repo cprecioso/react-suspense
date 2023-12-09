@@ -13,7 +13,7 @@ A simple way to do a `fetch` while suspending the tree
 import { bindKeyedSuspense } from "@cprecioso/react-suspense";
 
 const { suspend: fetchPokemon } = bindKeyedSuspense((name: string) =>
-  fetch(`https://pokeapi.co/api/v2/pokemon/${name}`).then((res) => res.json())
+  fetch(`https://pokeapi.co/api/v2/pokemon/${name}`).then((res) => res.json()),
 );
 
 const Pokemon = ({ name }: { name: string }) => {
@@ -63,7 +63,7 @@ The following functions are ordered from simple to more advanced:
 import { bindSuspense } from "@cprecioso/react-suspense";
 
 const appConfig = bindSuspense(() =>
-  fetch("/api/config").then((res) => res.json())
+  fetch("/api/config").then((res) => res.json()),
 );
 
 export const Greeting = () => {
@@ -85,7 +85,7 @@ Pass it an async function, returns an object with:
 import { bindKeyedSuspense } from "@cprecioso/react-suspense";
 
 const userInfo = bindKeyedSuspense((userId) =>
-  fetch(`/api/user/${userId}`).then((res) => res.json())
+  fetch(`/api/user/${userId}`).then((res) => res.json()),
 );
 
 export const UserInfo = ({ userId }) => {
