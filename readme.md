@@ -59,7 +59,7 @@ The following functions are ordered from simple to more advanced:
 
 ### `bindSuspense`
 
-```jsx
+```tsx
 import { bindSuspense } from "@cprecioso/react-suspense";
 
 const appConfig = bindSuspense(() =>
@@ -81,7 +81,7 @@ Pass it an async function, returns an object with:
 
 ### `bindKeyedSuspense`
 
-```jsx
+```tsx
 import { bindKeyedSuspense } from "@cprecioso/react-suspense";
 
 const userInfo = bindKeyedSuspense((userId) =>
