@@ -5,6 +5,10 @@ $ npm i -D @cprecioso/react-suspense       # if you use npm
 $ yarn add --dev @cprecioso/react-suspense # if you use yarn
 ```
 
+## API
+
+_See the [docs](https://cprecioso.github.io/react-suspense/)_
+
 ## Quick-start
 
 A simple way to do a `fetch` while suspending the tree
@@ -43,10 +47,6 @@ export default App;
 You can wrap these components in `Suspense`s, handle data fetching errors in
 your regular error boundaries, and use `useDeferredValue` and `startTransition`
 to defer the loading to the background.
-
-## API
-
-_See the [docs](https://cprecioso.github.io/react-suspense/)_
 
 ## Guide
 
