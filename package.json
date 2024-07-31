@@ -28,14 +28,14 @@
   },
   "devDependencies": {
     "@cprecioso/tsconfig": "^2.0.1",
-    "@types/react": "^18.2.43",
-    "prettier": "3.1.0",
-    "prettier-plugin-organize-imports": "3.2.4",
-    "prettier-plugin-pkg": "0.18.0",
-    "prettier-plugin-sh": "0.13.1",
-    "tsup": "^8.0.1",
-    "typedoc": "^0.25.4",
-    "typescript": "~5.3.3"
+    "@types/react": "^18.3.3",
+    "prettier": "3.3.3",
+    "prettier-plugin-organize-imports": "4.0.0",
+    "prettier-plugin-pkg": "0.18.1",
+    "prettier-plugin-sh": "0.14.0",
+    "tsup": "^8.2.3",
+    "typedoc": "^0.26.5",
+    "typescript": "~5.5.4"
   },
   "sideEffects": false
 }
