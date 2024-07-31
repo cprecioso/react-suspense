@@ -1,5 +1,5 @@
-import { StoredCacheValue } from "../lib/cache-ref";
-import { KeyedCacheStorage, createKeyedSuspense } from "../suspense/keyed";
+import type { StoredCacheValue } from "../lib/cache-ref";
+import { createKeyedSuspense, type KeyedCacheStorage } from "../suspense/keyed";
 
 /**
  * Create a suspending function that will cache the result of the function call.
@@ -73,20 +73,21 @@ export const bindKeyedSuspense = <
     /** **(Advanced)** You can provide the backing cache object */
     storage?: Storage;
   } = {},
-): {
-  /** Suspend your tree while the async function resolves, it takes a `key`, and return its promise's value */
-  suspend: (key: Key) => Value;
-  /**
-   * Access to the backing cache.
-   *
-   * @remark
-   * Useful for doing `cache.set(key, null)`, and force a re-fetch.
-   */
-  cache: KeyedCacheStorage<Key, Value>;
-} => {
+) => {
   const { cache, suspend: cacheSuspend } = createKeyedSuspense<Key, Value>({
     storage,
   });
   const suspend = (key: Key) => cacheSuspend(key, () => fetcher(key));
-  return { suspend, cache: cache as any };
+  return {
+    /** Suspend your tree while the async function resolves, it takes a `key`, and return its promise's value */
+    suspend,
+
+    /**
+     * Access to the backing cache.
+     *
+     * @remark
+     * Useful for doing `cache.set(key, null)`, and force a re-fetch.
+     */
+    cache,
+  };
 };

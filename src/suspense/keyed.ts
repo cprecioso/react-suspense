@@ -1,4 +1,4 @@
-import { StoredCacheValue } from "../lib/cache-ref";
+import type { StoredCacheValue } from "../lib/cache-ref";
 import { suspendOnPromise } from "../lib/suspend";
 
 /**
@@ -26,18 +26,17 @@ export const createKeyedSuspense = <
     StoredCacheValue<Value>
   > = KeyedCacheStorage<Key, StoredCacheValue<Value>>,
 >({
-  storage = new Map() as any,
-}: {
   /** **(Advanced)** You can provide the backing cache object */
-  storage?: Storage;
-} = {}): {
+  storage = new Map() as unknown as Storage,
+} = {}) => ({
   /**
    * Access to the backing cache.
    *
    * @remark
    * Useful for doing `cache.set(key, null)`, and force a re-fetch.
    */
-  cache: Storage;
+  cache: storage,
+
   /**
    * Suspend your tree while the async function resolves, it takes a `key`, and return its promise's value.
    *
@@ -45,9 +44,6 @@ export const createKeyedSuspense = <
    * **This will not call the function again if it changes, only when the key changes!**
    * If you don't need to respond to different keys, you can use {@link createSuspense} instead.
    */
-  suspend: (key: Key, fn: () => Promise<Value>) => Value;
-} => ({
-  cache: storage,
-  suspend: (key, fn) =>
+  suspend: (key: Key, fn: () => Promise<Value>) =>
     suspendOnPromise(fn, storage.get(key), storage.set.bind(storage, key)),
 });

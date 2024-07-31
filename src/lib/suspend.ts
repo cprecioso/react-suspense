@@ -1,4 +1,4 @@
-import { CacheValue } from "./cache-ref";
+import type { CacheValue } from "./cache-ref";
 
 // We wrap the `fn` in an async function to avoid
 // throwing sync errors.

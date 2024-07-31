@@ -1,6 +1,6 @@
-import { StoredCacheValue } from "../lib/cache-ref";
+import type { StoredCacheValue } from "../lib/cache-ref";
 import {
-  SingleValueCacheStorage,
+  type SingleValueCacheStorage,
   createSuspense,
 } from "../suspense/single-value";
 
@@ -46,20 +46,22 @@ export const bindSuspense = <
      */
     storage?: Storage;
   } = {},
-): {
-  /** Suspend your tree while the async function resolves, and return its promise's value */
-  suspend: () => Value;
-  /**
-   * Access to the backing cache.
-   *
-   * @remark
-   * Useful for doing `cache.set(null)`, and force a re-fetch.
-   */
-  cache: Storage;
-} => {
+) => {
   const { cache, suspend: cacheSuspend } = createSuspense<Value>({
     storage,
   });
   const suspend = () => cacheSuspend(fetcher);
-  return { suspend, cache: cache as any };
+
+  return {
+    /** Suspend your tree while the async function resolves, and return its promise's value */
+    suspend,
+
+    /**
+     * Access to the backing cache.
+     *
+     * @remark
+     * Useful for doing `cache.set(null)`, and force a re-fetch.
+     */
+    cache,
+  };
 };
